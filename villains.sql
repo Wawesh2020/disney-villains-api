@@ -12,7 +12,7 @@ CREATE TABLE villains (
     movie VARCHAR(255),
      slug VARCHAR(255),
      createdAt DATETIME DEFAULT NOW(), 
-     updateddAt DATETIME DEFAULT NOW() ON UPDATE NOW(),
+     updatedAt DATETIME DEFAULT NOW() ON UPDATE NOW(),
      deletedAt DATETIME,
      PRIMARY KEY (id)
 );
