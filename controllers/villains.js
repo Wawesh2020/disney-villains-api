@@ -1,24 +1,28 @@
 const models = require('../models')
 
 const getAllVillains = async (request, response) => {
-  const villains = await models.villains.findAll({
+  try { const villains = await models.villains.findAll({
     attributes: ['name', 'movie', 'slug']
   })
 
   return response.send(villains)
+  } catch (error) {
+    return response.status(500).send('Cannot retrieve villains please try again')
+  }
 }
 
-const searchVillainBySlug = async (request, response) => {
-  const { search } = request.params
+const getVillainBySlug = async (request, response) => {
+  const { slug } = request.params
 
-  const villain = await models.villains.findOne({
-    where: { slug: search.toLowerCase() },
+  const matchedVillain = await models.villains.findOne({
+    where: { slug },
     attributes: ['name', 'movie', 'slug']
   })
 
-  if (!villain) return response.sendStatus(404)
-
-  return response.send(villain)
+  if (!matchedVillain) { return response.sendStatus(404)
+  } else {
+    return response.send(matchedVillain)
+  }
 }
 
 const saveNewVillain = async (request, response) => {
@@ -39,8 +43,14 @@ const saveNewVillain = async (request, response) => {
   return response.status(201).send(newVillain)
 }
 
+
 module.exports = {
   getAllVillains,
-  searchVillainBySlug,
+  getVillainBySlug,
   saveNewVillain
 }
+
+
+
+
+
